@@ -1,0 +1,442 @@
+/* ============================================
+   SlaapTracker — style.css
+   Mobile-first styling
+   ============================================ */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #f0f2f5;
+  color: #1a1a2e;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 80px;
+}
+
+/* ---- HEADER ---- */
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  background: #fff;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.header-icon {
+  font-size: 22px;
+}
+
+.header-title-box {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1a1a2e;
+}
+
+.lang-btn {
+  background: #e8eaf0;
+  border: none;
+  border-radius: 8px;
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  color: #1a1a2e;
+}
+
+.lang-btn:hover {
+  background: #d0d4e0;
+}
+
+/* ---- MAIN ---- */
+main {
+  flex: 1;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* ---- CARDS ---- */
+.card {
+  background: #fff;
+  border-radius: 14px;
+  padding: 16px;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.07);
+}
+
+.card.row-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  text-align: center;
+}
+
+.card.row-start {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* ---- LABELS ---- */
+.label-box {
+  font-size: 13px;
+  color: #666;
+}
+
+.field-label-box {
+  font-size: 13px;
+  font-weight: 600;
+  color: #555;
+  margin-bottom: 8px;
+}
+
+.section-label-box {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.section-label-box.inline {
+  margin-bottom: 10px;
+}
+
+/* ---- VALUES ---- */
+.big-value {
+  font-size: 42px;
+  font-weight: 800;
+  color: #1a1a2e;
+  line-height: 1.1;
+}
+
+.mid-value {
+  font-size: 28px;
+  font-weight: 700;
+  color: #1a1a2e;
+}
+
+/* ---- LAATSTE NACHT ---- */
+.laatste-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.laatste-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.datum-box {
+  font-size: 13px;
+  color: #888;
+}
+
+.kwal-box {
+  font-size: 12px;
+  font-weight: 600;
+  background: #e8eaf0;
+  border-radius: 6px;
+  padding: 3px 10px;
+  color: #333;
+}
+
+/* ---- RECENT ITEMS ---- */
+.recent-item, .nacht-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid #f0f2f5;
+}
+
+.recent-item:last-child, .nacht-item:last-child {
+  border-bottom: none;
+}
+
+/* ---- INVOER ---- */
+.input-card {
+  background: #f7f8fa;
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin-bottom: 4px;
+}
+
+.input-card-big {
+  padding: 8px 14px;
+}
+
+.input-bare {
+  width: 100%;
+  border: none;
+  background: transparent;
+  font-size: 15px;
+  color: #1a1a2e;
+  outline: none;
+}
+
+.input-big {
+  font-size: 32px;
+  font-weight: 700;
+  text-align: center;
+}
+
+/* Kwaliteit grid */
+.kwal-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.kwal-btn {
+  background: #f0f2f5;
+  border: 2px solid transparent;
+  border-radius: 10px;
+  padding: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  color: #333;
+  transition: all 0.15s;
+}
+
+.kwal-btn:hover {
+  background: #e2e5ed;
+}
+
+.kwal-btn.active {
+  background: #1a1a2e;
+  color: #fff;
+  border-color: #1a1a2e;
+}
+
+.btn-opslaan {
+  width: 100%;
+  background: #1a1a2e;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 15px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 8px;
+}
+
+.btn-opslaan:hover {
+  background: #2d2d4e;
+}
+
+/* Alerts */
+.alert {
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.alert-ok {
+  background: #e6f9ef;
+  color: #1a7a45;
+}
+
+.alert-err {
+  background: #fdecea;
+  color: #b00020;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* ---- OVERZICHT ---- */
+.verdeling-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.verdeling-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 0;
+  border-bottom: 1px solid #f0f2f5;
+}
+
+.verdeling-item:last-child {
+  border-bottom: none;
+}
+
+.inner-list {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---- INSTELLINGEN ---- */
+.inst-over-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+.inst-moon {
+  font-size: 24px;
+}
+
+.inst-sub-label {
+  font-size: 13px;
+  color: #888;
+}
+
+.doel-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.input-doel {
+  width: 70px;
+  background: #f0f2f5;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 10px;
+  font-size: 18px;
+  font-weight: 700;
+  text-align: center;
+  outline: none;
+}
+
+.btn-doel-opslaan {
+  width: 100%;
+  background: #1a1a2e;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-doel-opslaan:hover {
+  background: #2d2d4e;
+}
+
+.reminder-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.reminder-check {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+.btn-verwijder {
+  width: 100%;
+  background: #b00020;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 13px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-verwijder:hover {
+  background: #8c0018;
+}
+
+/* ---- FOOTER ---- */
+.app-footer {
+  text-align: center;
+  font-size: 11px;
+  color: #aaa;
+  padding: 10px;
+}
+
+/* ---- BOTTOM NAV ---- */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #fff;
+  display: flex;
+  border-top: 1px solid #e8eaf0;
+  height: 64px;
+  z-index: 20;
+}
+
+.nav-tab {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  text-decoration: none;
+  color: #aaa;
+  font-size: 11px;
+  transition: color 0.15s;
+}
+
+.nav-tab.active {
+  color: #1a1a2e;
+}
+
+.nav-square {
+  width: 22px;
+  height: 22px;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+}
+
+.nav-square.filled {
+  background: #1a1a2e;
+  border-color: #1a1a2e;
+}
+
+/* ---- RESPONSIVE (desktop) ---- */
+@media (min-width: 600px) {
+  main {
+    max-width: 480px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .bottom-nav {
+    max-width: 480px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 14px 14px 0 0;
+  }
+}
