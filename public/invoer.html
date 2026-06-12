@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#f0f2f5" />
+  <title>Slaap Tracker</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <header>
+    <div class="header-left">
+      <div class="header-title-box" data-i18n="page_invoer">Slaap Invoeren</div>
+    </div>
+    <button class="lang-btn" id="langToggle">EN</button>
+  </header>
+
+  <main>
+
+    <div id="successMsg" class="alert alert-ok hidden" data-i18n="msg_opgeslagen">✅ Opgeslagen!</div>
+    <div id="errorMsg"   class="alert alert-err hidden"></div>
+
+    <!-- Datum -->
+    <div class="field-label-box" data-i18n="lbl_datum">Datum</div>
+    <div class="input-card">
+      <input type="date" id="datum" class="input-bare" />
+    </div>
+
+    <!-- Aantal Uren -->
+    <div class="field-label-box" data-i18n="lbl_aantal_uren">Aantal Uren</div>
+    <div class="input-card input-card-big">
+      <input type="number" id="aantalUren" class="input-bare input-big"
+             min="0" max="24" step="0.5" placeholder="7" />
+    </div>
+
+    <!-- Kwaliteit -->
+    <div class="field-label-box" data-i18n="lbl_kwaliteit">Kwaliteit</div>
+    <div class="kwal-grid">
+      <button class="kwal-btn" data-val="Slecht"     data-i18n="kwal_slecht">Slecht</button>
+      <button class="kwal-btn" data-val="Matig"      data-i18n="kwal_matig">Matig</button>
+      <button class="kwal-btn" data-val="Goed"       data-i18n="kwal_goed">Goed</button>
+      <button class="kwal-btn" data-val="Uitstekend" data-i18n="kwal_uitstekend">Uitstekend</button>
+    </div>
+
+    <!-- Opslaan knop -->
+    <button class="btn-opslaan" id="saveBtn" data-i18n="btn_opslaan">Opslaan</button>
+
+  </main>
+
+  <footer class="app-footer" data-i18n="footer_text">SlaapTracker v1.0</footer>
+
+  <nav class="bottom-nav">
+    <a href="index.html" class="nav-tab">
+      <div class="nav-square"></div>
+      <span data-i18n="nav_index">Index</span>
+    </a>
+    <a href="invoer.html" class="nav-tab active">
+      <div class="nav-square filled"></div>
+      <span data-i18n="nav_invoer">Invoer</span>
+    </a>
+    <a href="overzicht.html" class="nav-tab">
+      <div class="nav-square"></div>
+      <span data-i18n="nav_overzicht">Overzicht</span>
+    </a>
+    <a href="instellingen.html" class="nav-tab">
+      <div class="nav-square"></div>
+      <span data-i18n="nav_instellingen">Instellingen</span>
+    </a>
+  </nav>
+
+  <script src="js/i18n.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/invoer.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js');
+    }
+  </script>
+</body>
+</html>
