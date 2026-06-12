@@ -20,8 +20,10 @@ const BESTANDEN = [
   '/slaap-app/locales/nl.json',
   '/slaap-app/locales/en.json',
   '/slaap-app/manifest.json',
-  '/slaap-app/images/icon-192.png',
-  '/slaap-app/images/icon-512.png'
+  '/slaap-app/images/house.png',
+  '/slaap-app/images/settings.png',
+  '/slaap-app/images/chart-column-increasing.png',
+  '/slaap-app/images/pen.png',
 ];
 
 /* Installatie: alle bestanden in cache plaatsen */
