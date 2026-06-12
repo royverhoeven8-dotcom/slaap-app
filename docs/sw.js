@@ -3,7 +3,7 @@
    Service Worker: cache-first strategie
    ============================================ */
 
-const CACHE = 'slaap-v1';
+const CACHE = 'slaap-v2';
 
 const BESTANDEN = [
   '/slaap-app/index.html',
