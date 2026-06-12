@@ -6,10 +6,10 @@
 const CACHE = 'slaap-v1';
 
 const BESTANDEN = [
-  'docs/index.html',
-  'docs/invoer.html',
-  'docs/overzicht.html',
-  'docs/instellingen.html',
+  'index.html',
+  'invoer.html',
+  'overzicht.html',
+  'instellingen.html',
   'css/style.css',
   'js/app.js',
   'js/i18n.js',
