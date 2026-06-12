@@ -2,7 +2,7 @@
   "name": "SlaapTracker",
   "short_name": "Slaap",
   "description": "Bijhoud je slaapkwaliteit en -duur",
-  "start_url": "index.html",
+  "start_url": "/docs/index.html",
   "display": "standalone",
   "background_color": "#f0f2f5",
   "theme_color": "#f0f2f5",

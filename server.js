@@ -9,7 +9,7 @@ const publicDir = path.join(__dirname);
 app.use(express.static(publicDir));
 
 app.get('/', (req, res) => {
-    res.sendFile(path.join(publicDir, 'index.html'));
+    res.sendFile(path.join(publicDir, 'docs', 'index.html'));
 });
 
 app.listen(port, () => {
