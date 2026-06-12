@@ -277,6 +277,44 @@ main {
   gap: 6px;
 }
 
+.chart-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+#kwaliteitChart {
+  width: 100%;
+  max-width: 280px;
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: inset 0 1px 8px rgba(0, 0, 0, 0.03);
+}
+
+.chart-legend {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  width: 100%;
+}
+
+.chart-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #444;
+}
+
+.chart-legend-color {
+  width: 14px;
+  height: 14px;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
 .verdeling-item {
   display: flex;
   justify-content: space-between;

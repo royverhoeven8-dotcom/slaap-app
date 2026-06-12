@@ -3,36 +3,107 @@
    Statistieken en alle nachten weergeven
    ============================================ */
 
-document.addEventListener('DOMContentLoaded', () => {
-  const data = JSON.parse(localStorage.getItem('slaapdata') || '[]');
+const CHART_LABELS = ['Slecht', 'Matig', 'Goed', 'Uitstekend'];
+const CHART_COLORS = {
+  Slecht: '#f25f5c',
+  Matig: '#f4a261',
+  Goed: '#2a9d8f',
+  Uitstekend: '#264653'
+};
 
-  // Totaal nachten
-  document.getElementById('totaalNachten').textContent = data.length;
+function drawPieChart(canvas, counts) {
+  const ctx = canvas.getContext('2d');
+  const width = canvas.width;
+  const height = canvas.height;
+  ctx.clearRect(0, 0, width, height);
+  const total = CHART_LABELS.reduce((sum, label) => sum + (counts[label] || 0), 0);
 
-  if (data.length === 0) return;
+  if (total === 0) {
+    ctx.fillStyle = '#888';
+    ctx.font = '15px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('Geen data beschikbaar', width / 2, height / 2);
+    return;
+  }
 
-  // Gemiddeld aantal uren
-  const gem = (data.reduce((s, e) => s + e.uren, 0) / data.length).toFixed(1);
-  document.getElementById('gemiddeldUren').textContent = gem + 'u';
+  let startAngle = -0.5 * Math.PI;
+  const radius = Math.min(width, height) / 2 - 16;
 
-  // Kwaliteit verdeling
-  const telling = {};
-  data.forEach(e => {
-    telling[e.kwaliteit] = (telling[e.kwaliteit] || 0) + 1;
+  CHART_LABELS.forEach(label => {
+    const value = counts[label] || 0;
+    if (value === 0) return;
+    const sliceAngle = (value / total) * Math.PI * 2;
+    ctx.fillStyle = CHART_COLORS[label];
+    ctx.beginPath();
+    ctx.moveTo(width / 2, height / 2);
+    ctx.arc(width / 2, height / 2, radius, startAngle, startAngle + sliceAngle);
+    ctx.closePath();
+    ctx.fill();
+    startAngle += sliceAngle;
   });
+
+  ctx.fillStyle = '#ffffff';
+  ctx.beginPath();
+  ctx.arc(width / 2, height / 2, radius * 0.55, 0, Math.PI * 2);
+  ctx.fill();
+
+  ctx.fillStyle = '#1a1a2e';
+  ctx.font = '700 18px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText(total + ' nachten', width / 2, height / 2 + 8);
+}
+
+function renderLegend(container, counts, total) {
+  container.innerHTML = '';
+  CHART_LABELS.forEach(label => {
+    const value = counts[label] || 0;
+    const percentage = total > 0 ? Math.round((value / total) * 100) : 0;
+    const item = document.createElement('div');
+    item.className = 'chart-legend-item';
+    item.innerHTML =
+      '<span class="chart-legend-color" style="background:' + CHART_COLORS[label] + '"></span>' +
+      '<span>' + label + ' — ' + value + 'x (' + percentage + '%)</span>';
+    container.appendChild(item);
+  });
+}
+
+function renderKwaliteitVerdeeld(data) {
+  const telling = CHART_LABELS.reduce((obj, label) => {
+    obj[label] = 0;
+    return obj;
+  }, {});
+  data.forEach(entry => {
+    if (CHART_LABELS.includes(entry.kwaliteit)) {
+      telling[entry.kwaliteit] += 1;
+    }
+  });
+
   const verdelingEl = document.getElementById('kwalVerdeling');
-  Object.entries(telling).forEach(([kwal, aantal]) => {
-    const pct = Math.round((aantal / data.length) * 100);
+  verdelingEl.innerHTML = '';
+  const total = data.length;
+
+  CHART_LABELS.forEach(label => {
+    const value = telling[label];
+    if (value === 0) return;
+    const pct = Math.round((value / total) * 100);
     const div = document.createElement('div');
     div.className = 'verdeling-item';
     div.innerHTML =
-      '<span class="kwal-box">' + kwal + '</span>' +
-      '<span class="label-box">' + aantal + 'x (' + pct + '%)</span>';
+      '<span class="kwal-box">' + label + '</span>' +
+      '<span class="label-box">' + value + 'x (' + pct + '%)</span>';
     verdelingEl.appendChild(div);
   });
 
-  // Alle nachten gesorteerd (nieuwste eerst)
+  const canvas = document.getElementById('kwaliteitChart');
+  drawPieChart(canvas, telling);
+
+  const legend = document.getElementById('kwalLegenda');
+  renderLegend(legend, telling, total);
+}
+
+function renderAlleNachten(data) {
   const alleEl = document.getElementById('alleNachten');
+  alleEl.innerHTML = '';
   [...data]
     .sort((a, b) => b.datum.localeCompare(a.datum))
     .forEach(e => {
@@ -44,4 +115,24 @@ document.addEventListener('DOMContentLoaded', () => {
         '<span class="kwal-box">' + e.kwaliteit + '</span>';
       alleEl.appendChild(div);
     });
+}
+
+function updateOverview() {
+  const data = JSON.parse(localStorage.getItem('slaapdata') || '[]');
+
+  document.getElementById('totaalNachten').textContent = data.length;
+  document.getElementById('gemiddeldUren').textContent = data.length === 0
+    ? '–'
+    : (data.reduce((sum, entry) => sum + entry.uren, 0) / data.length).toFixed(1) + 'u';
+
+  renderKwaliteitVerdeeld(data);
+  renderAlleNachten(data);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  updateOverview();
+});
+
+window.addEventListener('storage', () => {
+  updateOverview();
 });
