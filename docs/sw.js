@@ -6,22 +6,22 @@
 const CACHE = 'slaap-v1';
 
 const BESTANDEN = [
-  'index.html',
-  'invoer.html',
-  'overzicht.html',
-  'instellingen.html',
-  'css/style.css',
-  'js/app.js',
-  'js/i18n.js',
-  'js/index.js',
-  'js/invoer.js',
-  'js/overzicht.js',
-  'js/instellingen.js',
-  'locales/nl.json',
-  'locales/en.json',
-  'manifest.json',
-  'images/icon-192.png',
-  'images/icon-512.png'
+  '/slaap-app/index.html',
+  '/slaap-app/invoer.html',
+  '/slaap-app/overzicht.html',
+  '/slaap-app/instellingen.html',
+  '/slaap-app/css/style.css',
+  '/slaap-app/js/app.js',
+  '/slaap-app/js/i18n.js',
+  '/slaap-app/js/index.js',
+  '/slaap-app/js/invoer.js',
+  '/slaap-app/js/overzicht.js',
+  '/slaap-app/js/instellingen.js',
+  '/slaap-app/locales/nl.json',
+  '/slaap-app/locales/en.json',
+  '/slaap-app/manifest.json',
+  '/slaap-app/images/icon-192.png',
+  '/slaap-app/images/icon-512.png'
 ];
 
 /* Installatie: alle bestanden in cache plaatsen */
@@ -49,7 +49,7 @@ self.addEventListener('fetch', event => {
       if (cached) return cached;
       return fetch(event.request).catch(() => {
         if (event.request.mode === 'navigate') {
-          return caches.match('index.html');
+          return caches.match('/slaap-app/index.html');
         }
       });
     })
