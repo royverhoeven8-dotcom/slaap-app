@@ -4,41 +4,27 @@
    ============================================ */
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Doel uren laden
-  const opgeslagenDoel = localStorage.getItem('doelUren');
-  if (opgeslagenDoel) {
-    document.getElementById('doelUren').value = opgeslagenDoel;
-  }
+  const doelInput = document.getElementById('doelUren');
+  const reminderCheck = document.getElementById('reminderCheck');
+  const reminderTime = document.getElementById('reminderTime');
+  const saveBtn = document.getElementById('saveDoelBtn');
+  const verwijderBtn = document.getElementById('verwijderBtn');
 
-  // Herinnering laden
-  const reminderAan = localStorage.getItem('reminderAan') === 'true';
-  const reminderTijd = localStorage.getItem('reminderTime') || '22:00';
-  document.getElementById('reminderCheck').checked = reminderAan;
-  document.getElementById('reminderTime').value = reminderTijd;
+  doelInput.value = localStorage.getItem('doelUren') || '';
+  reminderCheck.checked = localStorage.getItem('reminderAan') === 'true';
+  reminderTime.value = localStorage.getItem('reminderTime') || '22:00';
 
-  // Doel opslaan
-  document.getElementById('saveDoelBtn').addEventListener('click', () => {
-    const val = document.getElementById('doelUren').value;
-    localStorage.setItem('doelUren', val);
-    const btn = document.getElementById('saveDoelBtn');
-    btn.textContent = '✅ Opgeslagen';
-    setTimeout(() => {
-      btn.textContent = btn.getAttribute('data-i18n') === 'btn_opslaan_doel'
-        ? (localStorage.getItem('lang') === 'en' ? 'Save' : 'Opslaan')
-        : 'Opslaan';
-    }, 1500);
+  saveBtn.addEventListener('click', () => {
+    localStorage.setItem('doelUren', doelInput.value);
+    const originalText = saveBtn.textContent;
+    saveBtn.textContent = '✅ Opgeslagen';
+    setTimeout(() => saveBtn.textContent = originalText, 1500);
   });
 
-  // Herinnering opslaan bij wijziging
-  document.getElementById('reminderCheck').addEventListener('change', e => {
-    localStorage.setItem('reminderAan', e.target.checked);
-  });
-  document.getElementById('reminderTime').addEventListener('change', e => {
-    localStorage.setItem('reminderTime', e.target.value);
-  });
+  reminderCheck.addEventListener('change', e => localStorage.setItem('reminderAan', e.target.checked));
+  reminderTime.addEventListener('change', e => localStorage.setItem('reminderTime', e.target.value));
 
-  // Verwijder alle gegevens
-  document.getElementById('verwijderBtn').addEventListener('click', () => {
+  verwijderBtn.addEventListener('click', () => {
     if (confirm('Weet je zeker dat je alle slaapdata wilt verwijderen?')) {
       localStorage.removeItem('slaapdata');
       alert('✅ Alle gegevens zijn verwijderd.');

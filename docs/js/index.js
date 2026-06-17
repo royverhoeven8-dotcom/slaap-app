@@ -5,29 +5,21 @@
 
 document.addEventListener('DOMContentLoaded', () => {
   const data = JSON.parse(localStorage.getItem('slaapdata') || '[]');
+  if (!data.length) return;
 
-  if (data.length === 0) return;
-
-  // Gemiddelde slaap
-  const gem = (data.reduce((s, e) => s + e.uren, 0) / data.length).toFixed(1);
-  document.getElementById('avgSleep').textContent = gem + 'u';
-
-  // Meest recente nacht eerst
   const sorted = [...data].sort((a, b) => b.datum.localeCompare(a.datum));
-  const last = sorted[0];
-  document.getElementById('lastUren').textContent = last.uren + 'u';
-  document.getElementById('lastDatum').textContent = last.datum;
-  document.getElementById('lastKwal').textContent = last.kwaliteit;
+  const avg = (data.reduce((s, e) => s + e.uren, 0) / data.length).toFixed(1);
+  const [last] = sorted;
 
-  // Recente nachten lijst (max 5)
-  const recentList = document.getElementById('recentList');
+  document.getElementById('avgSleep').textContent = `${avg}u`;
+  Object.assign(document.getElementById('lastUren'), { textContent: `${last.uren}u` });
+  Object.assign(document.getElementById('lastDatum'), { textContent: last.datum });
+  Object.assign(document.getElementById('lastKwal'), { textContent: last.kwaliteit });
+
   sorted.slice(0, 5).forEach(e => {
     const div = document.createElement('div');
     div.className = 'card recent-item';
-    div.innerHTML =
-      '<span class="datum-box">' + e.datum + '</span>' +
-      '<span class="mid-value">' + e.uren + 'u</span>' +
-      '<span class="kwal-box">' + e.kwaliteit + '</span>';
-    recentList.appendChild(div);
+    div.innerHTML = `<span class="datum-box">${e.datum}</span><span class="mid-value">${e.uren}u</span><span class="kwal-box">${e.kwaliteit}</span>`;
+    document.getElementById('recentList').appendChild(div);
   });
 });

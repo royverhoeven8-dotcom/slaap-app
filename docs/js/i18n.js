@@ -5,29 +5,21 @@
 
 let currentLang = localStorage.getItem('lang') || 'nl';
 
-async function loadTranslations(lang) {
-  const res = await fetch('/slaap-app/locales/' + lang + '.json');
-  return await res.json();
-}
-
-async function applyTranslations() {
-  const t = await loadTranslations(currentLang);
+const applyTranslations = async () => {
+  const t = await fetch(`/slaap-app/locales/${currentLang}.json`).then(r => r.json());
   document.querySelectorAll('[data-i18n]').forEach(el => {
     const key = el.getAttribute('data-i18n');
     if (t[key]) el.textContent = t[key];
   });
   const btn = document.getElementById('langToggle');
   if (btn) btn.textContent = currentLang === 'nl' ? 'EN' : 'NL';
-}
+};
 
-document.addEventListener('DOMContentLoaded', () => {
-  applyTranslations();
-  const btn = document.getElementById('langToggle');
-  if (btn) {
-    btn.addEventListener('click', () => {
-      currentLang = currentLang === 'nl' ? 'en' : 'nl';
-      localStorage.setItem('lang', currentLang);
-      applyTranslations();
-    });
-  }
+document.addEventListener('DOMContentLoaded', async () => {
+  await applyTranslations();
+  document.getElementById('langToggle')?.addEventListener('click', async () => {
+    currentLang = currentLang === 'nl' ? 'en' : 'nl';
+    localStorage.setItem('lang', currentLang);
+    await applyTranslations();
+  });
 });
