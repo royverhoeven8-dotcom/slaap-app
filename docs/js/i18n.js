@@ -1,5 +1,5 @@
-/* ============================================
-   SlaapTracker — i18n.js
+﻿/* ============================================
+   SlaapTracker â€” i18n.js
    Taalswitch NL / EN
    ============================================ */
 
@@ -8,7 +8,7 @@ let currentLang = localStorage.getItem('lang') || 'nl';
 
 const applyTranslations = async () => {
   // JSON laden van geselecteerde taal
-  const t = await fetch(`/slaap-app/locales/${currentLang}.json`).then(r => r.json());
+  const t = await fetch(`locales/${currentLang}.json`).then(r => r.json());
   
   // Alle elementen met data-i18n attribute vervangen met vertaalde tekst
   document.querySelectorAll('[data-i18n]').forEach(el => {
@@ -31,3 +31,4 @@ document.addEventListener('DOMContentLoaded', async () => {
     await applyTranslations();
   });
 });
+

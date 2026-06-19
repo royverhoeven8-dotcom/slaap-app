@@ -1,12 +1,12 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="nl">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#f0f2f5" />
   <title>Slaap Tracker</title>
-  <link rel="manifest" href="/slaap-app/manifest.json" />
-  <link rel="stylesheet" href="/slaap-app/css/style.css" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
 
@@ -28,7 +28,7 @@
     <!-- Gemiddeld -->
     <div class="card row-start">
       <span class="label-box" data-i18n="lbl_gemiddeld">Gemiddeld</span>
-      <div class="big-value" id="gemiddeldUren">–</div>
+      <div class="big-value" id="gemiddeldUren">â€“</div>
     </div>
 
     <!-- Kwaliteit Verdeling -->
@@ -53,30 +53,31 @@
 
   <nav class="bottom-nav">
     <a href="index.html" class="nav-tab">
-      <img src="/slaap-app/images/house.png" class="nav-icon" />
+      <img src="images/house.png" class="nav-icon" />
       <span data-i18n="nav_index">Index</span>
     </a>
     <a href="invoer.html" class="nav-tab">
-      <img src="/slaap-app/images/pen.png" class="nav-icon" />
+      <img src="images/pen.png" class="nav-icon" />
       <span data-i18n="nav_invoer">Invoer</span>
     </a>
     <a href="overzicht.html" class="nav-tab active">
-      <img src="/slaap-app/images/chart-column-increasing.png" class="nav-icon" />
+      <img src="images/chart-column-increasing.png" class="nav-icon" />
       <span data-i18n="nav_overzicht">Overzicht</span>
     </a>
     <a href="instellingen.html" class="nav-tab">
-      <img src="/slaap-app/images/settings.png" class="nav-icon" />
+      <img src="images/settings.png" class="nav-icon" />
       <span data-i18n="nav_instellingen">Instellingen</span>
     </a>
   </nav>
 
-  <script src="/slaap-app/js/i18n.js"></script>
-  <script src="/slaap-app/js/app.js"></script>
-  <script src="/slaap-app/js/overzicht.js"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/overzicht.js"></script>
   <script>
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/slaap-app/sw.js');
+      navigator.serviceWorker.register('sw.js');
     }
   </script>
 </body>
 </html>
+
