@@ -24,6 +24,7 @@ const BESTANDEN = [
   '/slaap-app/images/settings.png',
   '/slaap-app/images/chart-column-increasing.png',
   '/slaap-app/images/pen.png',
+  '/slaap-app/images/icoon mobiel.png'
 ];
 
 /* Installatie: alle bestanden in cache plaatsen */
