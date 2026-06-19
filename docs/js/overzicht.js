@@ -3,18 +3,22 @@
    Statistieken en alle nachten weergeven
    ============================================ */
 
-// Kwaliteit labels en kleuren voor grafiek
 const CHART_LABELS = ['Slecht', 'Matig', 'Goed', 'Uitstekend'];
-const CHART_COLORS = { Slecht: '#f25f5c', Matig: '#f4a261', Goed: '#2a9d8f', Uitstekend: '#264653' };
+const CHART_COLORS = {
+  Slecht: '#f25f5c',
+  Matig: '#f4a261',
+  Goed: '#2a9d8f',
+  Uitstekend: '#264653'
+};
 
-// Taartdiagram tekenen met Canvas
-const drawPieChart = (canvas, counts) => {
+function drawPieChart(canvas, counts) {
   const ctx = canvas.getContext('2d');
-  const { width, height } = canvas;
-  const total = CHART_LABELS.reduce((sum, label) => sum + (counts[label] || 0), 0);
+  const width = canvas.width;
+  const height = canvas.height;
   ctx.clearRect(0, 0, width, height);
+  const total = CHART_LABELS.reduce((sum, label) => sum + (counts[label] || 0), 0);
 
-  if (!total) {
+  if (total === 0) {
     ctx.fillStyle = '#888';
     ctx.font = '15px sans-serif';
     ctx.textAlign = 'center';
@@ -22,91 +26,122 @@ const drawPieChart = (canvas, counts) => {
     return;
   }
 
-  let angle = -0.5 * Math.PI;
+  let startAngle = -0.5 * Math.PI;
   const radius = Math.min(width, height) / 2 - 16;
-  const cx = width / 2;
-  const cy = height / 2;
 
   CHART_LABELS.forEach(label => {
     const value = counts[label] || 0;
-    if (!value) return;
-    const sliceAngle = (value / total) * 2 * Math.PI;
+    if (value === 0) return;
+    const sliceAngle = (value / total) * Math.PI * 2;
     ctx.fillStyle = CHART_COLORS[label];
     ctx.beginPath();
-    ctx.moveTo(cx, cy);
-    ctx.arc(cx, cy, radius, angle, angle + sliceAngle);
+    ctx.moveTo(width / 2, height / 2);
+    ctx.arc(width / 2, height / 2, radius, startAngle, startAngle + sliceAngle);
     ctx.closePath();
     ctx.fill();
-    angle += sliceAngle;
+    startAngle += sliceAngle;
   });
 
   ctx.fillStyle = '#ffffff';
   ctx.beginPath();
-  ctx.arc(cx, cy, radius * 0.55, 0, 2 * Math.PI);
+  ctx.arc(width / 2, height / 2, radius * 0.55, 0, Math.PI * 2);
   ctx.fill();
 
   ctx.fillStyle = '#1a1a2e';
   ctx.font = '700 18px sans-serif';
   ctx.textAlign = 'center';
-  ctx.fillText(`${total} nachten`, cx, cy + 8);
-};
+  ctx.fillText(total + ' nachten', width / 2, height / 2 + 8);
+}
 
-const renderLegend = (container, counts, total) => {
-  container.innerHTML = CHART_LABELS.map(label => {
+function renderLegend(container, counts, total) {
+  container.innerHTML = '';
+  CHART_LABELS.forEach(label => {
     const value = counts[label] || 0;
-    const pct = total > 0 ? Math.round((value / total) * 100) : 0;
-    return `<div class="chart-legend-item"><span class="chart-legend-color" style="background:${CHART_COLORS[label]}"></span><span>${label} — ${value}x (${pct}%)</span></div>`;
-  }).join('');
-};
+    const percentage = total > 0 ? Math.round((value / total) * 100) : 0;
+    const item = document.createElement('div');
+    item.className = 'chart-legend-item';
+    item.innerHTML =
+      '<span class="chart-legend-color" style="background:' + CHART_COLORS[label] + '"></span>' +
+      '<span>' + label + ' — ' + value + 'x (' + percentage + '%)</span>';
+    container.appendChild(item);
+  });
+}
 
-const renderKwaliteitVerdeeld = data => {
+function renderKwaliteitVerdeeld(data) {
+  const telling = CHART_LABELS.reduce((obj, label) => {
+    obj[label] = 0;
+    return obj;
+  }, {});
+  data.forEach(entry => {
+    if (CHART_LABELS.includes(entry.kwaliteit)) {
+      telling[entry.kwaliteit] += 1;
+    }
+  });
+
+  const verdelingEl = document.getElementById('kwalVerdeling');
+  verdelingEl.innerHTML = '';
   const total = data.length;
-  const counts = Object.fromEntries(CHART_LABELS.map(label => [label, data.filter(entry => entry.kwaliteit === label).length]));
 
-  document.getElementById('kwalVerdeling').innerHTML = CHART_LABELS.filter(label => counts[label]).map(label => 
-    `<div class="verdeling-item"><span class="kwal-box">${label}</span><span class="label-box">${counts[label]}x (${Math.round((counts[label] / total) * 100)}%)</span></div>`
-  ).join('');
+  if (total === 0) {
+    verdelingEl.innerHTML = '<div class="empty-state">Geen slaapdata beschikbaar</div>';
+  } else {
+    CHART_LABELS.forEach(label => {
+      const value = telling[label];
+      if (value === 0) return;
+      const pct = Math.round((value / total) * 100);
+      const div = document.createElement('div');
+      div.className = 'verdeling-item';
+      div.innerHTML =
+        '<span class="kwal-box">' + label + '</span>' +
+        '<span class="label-box">' + value + 'x (' + pct + '%)</span>';
+      verdelingEl.appendChild(div);
+    });
+  }
 
   const canvas = document.getElementById('kwaliteitChart');
+  drawPieChart(canvas, telling);
+
   const legend = document.getElementById('kwalLegenda');
-  if (canvas && legend) {
-    drawPieChart(canvas, counts);
-    renderLegend(legend, counts, total);
+  renderLegend(legend, telling, total);
+}
+
+function renderAlleNachten(data) {
+  const alleEl = document.getElementById('alleNachten');
+  alleEl.innerHTML = '';
+  if (data.length === 0) {
+    alleEl.innerHTML = '<div class="empty-state">Geen nachten om te tonen</div>';
+    return;
   }
-};
 
-const deleteDay = datum => {
-  if (!confirm('Weet je zeker dat je deze dag wilt verwijderen?')) return;
-  const data = JSON.parse(localStorage.getItem('slaapdata') || '[]').filter(entry => entry.datum !== datum);
-  localStorage.setItem('slaapdata', JSON.stringify(data));
-  updateOverview();
-};
-
-const renderAlleNachten = data => {
-  document.getElementById('alleNachten').innerHTML = [...data]
+  [...data]
     .sort((a, b) => b.datum.localeCompare(a.datum))
-    .map(entry => `
-      <div class="nacht-item">
-        <div class="nacht-info">
-          <span class="nacht-datum">${entry.datum}</span>
-          <span class="nacht-uren">${entry.uren}u</span>
-          <span class="nacht-kwal">${entry.kwaliteit}</span>
-        </div>
-        <button class="delete-btn" type="button" onclick="deleteDay('${entry.datum}')">Verwijderen</button>
-      </div>
-    `).join('');
-};
+    .forEach(e => {
+      const div = document.createElement('div');
+      div.className = 'nacht-item';
+      div.innerHTML =
+        '<span class="datum-box">' + e.datum + '</span>' +
+        '<span class="mid-value">' + e.uren + 'u</span>' +
+        '<span class="kwal-box">' + e.kwaliteit + '</span>';
+      alleEl.appendChild(div);
+    });
+}
 
-const updateOverview = () => {
+function updateOverview() {
   const data = JSON.parse(localStorage.getItem('slaapdata') || '[]');
-  const avg = data.length ? (data.reduce((sum, entry) => sum + entry.uren, 0) / data.length).toFixed(1) + 'u' : '–';
 
   document.getElementById('totaalNachten').textContent = data.length;
-  document.getElementById('gemiddeldUren').textContent = avg;
+  document.getElementById('gemiddeldUren').textContent = data.length === 0
+    ? '–'
+    : (data.reduce((sum, entry) => sum + entry.uren, 0) / data.length).toFixed(1) + 'u';
 
   renderKwaliteitVerdeeld(data);
   renderAlleNachten(data);
-};
+}
 
-document.addEventListener('DOMContentLoaded', updateOverview);
-window.addEventListener('storage', updateOverview);
+document.addEventListener('DOMContentLoaded', () => {
+  updateOverview();
+});
+
+window.addEventListener('storage', () => {
+  updateOverview();
+});

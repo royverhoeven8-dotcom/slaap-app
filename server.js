@@ -5,10 +5,10 @@ const app = express();
 const port = process.env.PORT || 3000;
 const publicDir = path.join(__dirname, 'docs');
 
-app.use('/slaap-app', express.static(publicDir));
+app.use(express.static(publicDir));
 
 app.get('/', (req, res) => {
-    res.redirect('/slaap-app/index.html');
+    res.sendFile(path.join(publicDir, 'index.html'));
 });
 
 app.listen(port, () => {

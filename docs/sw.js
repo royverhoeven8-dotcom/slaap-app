@@ -3,7 +3,7 @@
    Service Worker: cache-first strategie
    ============================================ */
 
-const CACHE = 'slaap-v2';
+const CACHE = 'slaap-v4';
 
 const BESTANDEN = [
   'index.html',
@@ -24,6 +24,8 @@ const BESTANDEN = [
   'images/settings.png',
   'images/chart-column-increasing.png',
   'images/pen.png',
+  'images/mobileicon.png',
+  'images/pcicon.png',
   'images/icoon mobiel.png'
 ];
 
