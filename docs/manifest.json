@@ -9,13 +9,13 @@
   "orientation": "portrait-primary",
   "icons": [
     {
-      "src": "images/icoon mobiel.png",
+      "src": "images/mobileicon.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "images/icoon mobiel.png",
+      "src": "images/pcicon.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
