@@ -47,19 +47,25 @@ self.addEventListener('activate', event => {
   self.clients.claim();
 });
 
-/* Fetch: netwerk eerst, cache fallback */
+/* Fetch: network first voor navigatie, cache first voor assets */
 self.addEventListener('fetch', event => {
-  event.respondWith(
-    fetch(event.request)
-      .then(response => {
-        if (!response || response.status !== 200 || response.type === 'opaque') {
+  if (event.request.mode === 'navigate') {
+    event.respondWith(
+      fetch(event.request)
+        .then(response => {
+          const responseClone = response.clone();
+          caches.open(CACHE).then(cache => cache.put(event.request, responseClone));
           return response;
-        }
-        const responseClone = response.clone();
-        caches.open(CACHE).then(cache => cache.put(event.request, responseClone));
-        return response;
-      })
-      .catch(() => caches.match(event.request).then(cached => cached || caches.match('index.html')))
+        })
+        .catch(() => caches.match('index.html'))
+    );
+    return;
+  }
+
+  event.respondWith(
+    caches.match(event.request).then(cached => {
+      return cached || fetch(event.request);
+    })
   );
 });
 

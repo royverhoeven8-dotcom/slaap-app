@@ -105,6 +105,25 @@ function renderKwaliteitVerdeeld(data) {
   renderLegend(legend, telling, total);
 }
 
+function getSleepData() {
+  const raw = localStorage.getItem('slaapdata');
+  if (!raw) return [];
+
+  try {
+    const parsed = JSON.parse(raw);
+    if (!Array.isArray(parsed)) return [];
+    return parsed.map(entry => ({
+      datum: entry.datum || '',
+      uren: Number(entry.uren) || 0,
+      kwaliteit: entry.kwaliteit || ''
+    }));
+  } catch (error) {
+    console.warn('Ongeldige slaapdata in localStorage, reset naar lege lijst.', error);
+    localStorage.removeItem('slaapdata');
+    return [];
+  }
+}
+
 function renderAlleNachten(data) {
   const alleEl = document.getElementById('alleNachten');
   alleEl.innerHTML = '';
@@ -127,7 +146,7 @@ function renderAlleNachten(data) {
 }
 
 function updateOverview() {
-  const data = JSON.parse(localStorage.getItem('slaapdata') || '[]');
+  const data = getSleepData();
 
   document.getElementById('totaalNachten').textContent = data.length;
   document.getElementById('gemiddeldUren').textContent = data.length === 0
@@ -142,6 +161,8 @@ document.addEventListener('DOMContentLoaded', () => {
   updateOverview();
 });
 
-window.addEventListener('storage', () => {
-  updateOverview();
+window.addEventListener('storage', event => {
+  if (event.key === 'slaapdata' || event.key === null) {
+    updateOverview();
+  }
 });
