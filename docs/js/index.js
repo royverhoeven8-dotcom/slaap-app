@@ -6,8 +6,18 @@
 document.addEventListener('DOMContentLoaded', () => {
   // Data laden uit localStorage
   const data = JSON.parse(localStorage.getItem('slaapdata') || '[]');
-  if (!data.length) return; // Niets om te tonen
-  
+
+  if (!data.length) {
+    // Geen data: nette lege-staat tonen i.p.v. niets doen
+    document.getElementById('avgSleep').textContent = '–';
+    document.getElementById('lastUren').textContent = '–';
+    document.getElementById('lastDatum').textContent = '–';
+    document.getElementById('lastKwal').textContent = '–';
+    document.getElementById('recentList').innerHTML =
+      '<div class="card"><span class="label-box">Nog geen slaapdata. Voeg je eerste nacht toe via Invoer.</span></div>';
+    return;
+  }
+
   // Nieuwste eerst (omgekeerde volgorde)
   const sorted = [...data].sort((a, b) => b.datum.localeCompare(a.datum));
   const [last] = sorted; // Eerste item destructuren
