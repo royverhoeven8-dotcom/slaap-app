@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#f0f2f5" />
-  <meta name="description" content="SlaapTracker â€“ bijhoud je slaap" />
+  <meta name="description" content="SlaapTracker – bijhoud je slaap" />
   <title>Slaap Tracker</title>
   <link rel="manifest" href="manifest.json" />
   <link rel="stylesheet" href="css/style.css" />
@@ -13,7 +13,11 @@
 
   <header>
     <div class="header-left">
-      <div class="header-icon">ðŸŒ™</div>
+      <div class="header-icon">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z" fill="#1a1a2e"/>
+        </svg>
+      </div>
       <div class="header-title-box" data-i18n="app_title">Slaap Tracker</div>
     </div>
     <button class="lang-btn" id="langToggle">EN</button>
@@ -24,7 +28,7 @@
     <!-- Gemiddelde Slaap card -->
     <div class="card row-center">
       <span class="label-box" data-i18n="lbl_gem_slaap">Gemiddelde Slaap</span>
-      <div class="big-value" id="avgSleep">â€“</div>
+      <div class="big-value" id="avgSleep">–</div>
       <span class="label-box" data-i18n="lbl_per_nacht">per nacht</span>
     </div>
 
@@ -32,11 +36,11 @@
     <div class="card">
       <div class="laatste-top">
         <span class="label-box" data-i18n="lbl_laatste_nacht">Laatste Nacht</span>
-        <div class="mid-value" id="lastUren">â€“</div>
+        <div class="mid-value" id="lastUren">–</div>
       </div>
       <div class="laatste-bottom">
-        <span class="datum-box" id="lastDatum">â€“</span>
-        <span class="kwal-box" id="lastKwal">â€“</span>
+        <span class="datum-box" id="lastDatum">–</span>
+        <span class="kwal-box" id="lastKwal">–</span>
       </div>
     </div>
 
@@ -77,4 +81,3 @@
   </script>
 </body>
 </html>
-

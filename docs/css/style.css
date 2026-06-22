@@ -39,7 +39,8 @@ header {
 }
 
 .header-icon {
-  font-size: 22px;
+  display: flex;
+  align-items: center;
 }
 
 .header-title-box {
@@ -347,7 +348,8 @@ main {
 }
 
 .inst-moon {
-  font-size: 24px;
+  display: flex;
+  align-items: center;
 }
 
 .inst-sub-label {
