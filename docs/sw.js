@@ -3,7 +3,7 @@
    Service Worker: cache-first strategie
    ============================================ */
 
-const CACHE = 'slaap-v4';
+const CACHE = 'slaap-v5';
 
 const BESTANDEN = [
   'index.html',
@@ -47,25 +47,20 @@ self.addEventListener('activate', event => {
   self.clients.claim();
 });
 
-/* Fetch: network first voor navigatie, cache first voor assets */
+/* Fetch: network first voor alles, cache als fallback (offline) */
 self.addEventListener('fetch', event => {
-  if (event.request.mode === 'navigate') {
-    event.respondWith(
-      fetch(event.request)
-        .then(response => {
-          const responseClone = response.clone();
-          caches.open(CACHE).then(cache => cache.put(event.request, responseClone));
-          return response;
-        })
-        .catch(() => caches.match('index.html'))
-    );
-    return;
-  }
-
   event.respondWith(
-    caches.match(event.request).then(cached => {
-      return cached || fetch(event.request);
-    })
+    fetch(event.request)
+      .then(response => {
+        const responseClone = response.clone();
+        caches.open(CACHE).then(cache => cache.put(event.request, responseClone));
+        return response;
+      })
+      .catch(() => {
+        return caches.match(event.request).then(cached => {
+          if (cached) return cached;
+          if (event.request.mode === 'navigate') return caches.match('index.html');
+        });
+      })
   );
 });
-
